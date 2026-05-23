@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepaLab — Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page active" id="page-login">
+  <div class="login-split">
+    <div class="login-left">
+      <div class="ll-grid"></div>
+      <div class="ll-orb1"></div>
+      <div class="ll-orb2"></div>
+      <div class="ll-logo" style="position:relative;z-index:1">
+        <div class="ll-logo-icon">PL</div>
+        <span class="ll-logo-text">Prépara<span>Lab</span></span>
+      </div>
+      <div class="ll-body">
+        <div class="ll-eyebrow">✦ Plateforme N°1 au Maroc</div>
+        <div class="ll-headline">Tout ce qu'il faut pour réussir ta <em>Grande École</em></div>
+        <div class="ll-desc">Cours en Drive, vidéos pédagogiques, annales corrigées et Time Challenger IA — 100% gratuit.</div>
+        <div class="ll-stats">
+          <div class="ll-stat"><div class="ll-stat-num">2.4<em>K</em></div><div class="ll-stat-lbl">Étudiants</div></div>
+          <div class="ll-stat"><div class="ll-stat-num">340<em>+</em></div><div class="ll-stat-lbl">Ressources</div></div>
+          <div class="ll-stat"><div class="ll-stat-num">4.9<em>★</em></div><div class="ll-stat-lbl">Note moy.</div></div>
+        </div>
+        <div class="ll-features">
+          <div class="ll-feat"><div class="ll-feat-dot">📂</div> Drives organisés par matière & semestre</div>
+          <div class="ll-feat"><div class="ll-feat-dot">🎬</div> Vidéos pédagogiques & exercices corrigés</div>
+          <div class="ll-feat"><div class="ll-feat-dot">🏆</div> Annales concours avec corrections vidéo</div>
+          <div class="ll-feat"><div class="ll-feat-dot">⚔️</div> Time Challenger — Bats l'IA chaque jour !</div>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-box">
+        <div class="lb-header">
+          <div class="lb-greeting">👋 Bon retour !</div>
+          <div class="lb-title">Se connecter</div>
+          <div class="lb-sub">Accès instantané — aucune inscription requise.</div>
+        </div>
+        <button class="google-btn" onclick="handleGoogle()">
+          <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Continuer avec Google
+        </button>
+        <div class="divider">ou avec email</div>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Se connecter</button>
+          <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Créer un compte</button>
+        </div>
+        <div class="err-banner" id="errBanner"><span>⚠️</span><span id="errMsg"></span></div>
+        <div class="auth-form">
+          <div class="f-group" id="nameGroup" style="display:none">
+            <label class="f-label">Prénom</label>
+            <div class="f-wrap"><span class="f-ico">👤</span><input class="f-input" type="text" id="nameInput" placeholder="Ton prénom"></div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Email</label>
+            <div class="f-wrap"><span class="f-ico">✉️</span><input class="f-input" type="email" id="emailInput" placeholder="ton.email@exemple.com"></div>
+            <div class="f-err" id="emailErr">Email invalide.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Mot de passe <a onclick="forgotPw()">Oublié ?</a></label>
+            <div class="f-wrap">
+              <span class="f-ico">🔒</span>
+              <input class="f-input" type="password" id="pwInput" placeholder="Minimum 6 caractères">
+              <button type="button" onclick="togglePw()" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--t3)" id="eyeBtn">👁</button>
+            </div>
+            <div class="f-err" id="pwErr">Min. 6 caractères.</div>
+          </div>
+          <button class="submit-btn" id="submitBtn" onclick="handleAuth()">
+            <span class="sb-text" id="submitTxt">Se connecter →</span>
+            <div class="spinner"></div>
+          </button>
+        </div>
+        <div class="demo-hint">Pas de compte ? <button onclick="demoLogin()">Essayer le compte démo</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

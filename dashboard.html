@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepaLab — Tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page active" id="page-dashboard">
+  <nav class="topnav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">PL</div>
+      <span class="nav-logo-text">Prépara<span>Lab</span></span>
+    </div>
+    <div class="nav-center">
+      <button class="nav-link active" onclick="showPage('dashboard')">🏠 Accueil</button>
+      <button class="nav-link" onclick="goPacks('drives')">📂 Drives</button>
+      <button class="nav-link" onclick="goPacks('videos')">🎬 Vidéos</button>
+      <button class="nav-link" onclick="goPacks('exams')">📝 Examens</button>
+      <button class="nav-link" onclick="showPage('concours')">🏆 Concours</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-avatar" id="navAvatar">?</div>
+      <span class="nav-name" id="navName">Étudiant</span>
+      <button class="nav-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+  <div class="dash-body">
+    <div class="dash-hero">
+      <div>
+        <div class="dash-welcome" id="dashWelcome">Bonjour 👋</div>
+        <div class="dash-title">Tableau de bord — <em>PrepaLab</em></div>
+      </div>
+      <div class="dash-quick">
+        <button class="dq-btn" onclick="goPacks('drives')">📂 Mes Cours</button>
+        <button class="dq-btn" onclick="goPacks('videos')">🎬 Vidéos</button>
+        <button class="dq-btn" onclick="goStudyZone()">⚔️ Focus Arena</button>
+      </div>
+    </div>
+    <div class="announce-bar" id="announceBar">
+      <div class="announce-ico">🚀</div>
+      <div class="announce-text"><strong>Nouveauté :</strong> Les annales des concours Médecine 2024 sont disponibles avec corrections vidéo complètes + QCM interactifs !</div>
+      <button class="announce-close" onclick="document.getElementById('announceBar').style.display='none'">✕</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card sc-1">
+        <div class="stat-ico si-blue">⏱</div>
+        <div class="stat-info"><h4>Temps d'étude total</h4><div class="stat-val sv-green" id="ds-total">0 h</div><div class="stat-sub" id="ds-today">Aujourd'hui : 0h</div></div>
+      </div>
+      <div class="stat-card sc-2">
+        <div class="stat-ico si-green">🔥</div>
+        <div class="stat-info"><h4>Streak de focus</h4><div class="stat-val sv-purple" id="ds-streak">0 jours</div><div class="stat-sub" id="ds-vs">Victory streak : 0</div></div>
+      </div>
+      <div class="stat-card sc-3">
+        <div class="stat-ico si-purple">🎯</div>
+        <div class="stat-info"><h4>Objectif IA aujourd'hui</h4><div class="stat-val sv-neon" id="ds-target">-- h</div><div class="stat-sub">Cible à battre</div></div>
+      </div>
+      <div class="stat-card sc-4">
+        <div class="stat-ico si-gold">⭐</div>
+        <div class="stat-info"><h4>Moyenne quotidienne</h4><div class="stat-val sv-gold" id="ds-avg">-- h</div><div class="stat-sub" id="ds-real">Total réel : 0h</div></div>
+      </div>
+    </div>
+    <div class="dash-mid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">📊 Historique des heures de travail</div>
+          <div class="chart-legend">
+            <span class="c-leg"><span class="c-leg-dot" style="background:var(--green)"></span> Réel</span>
+            <span class="c-leg"><span class="c-leg-dot" style="background:var(--blue);border:1px dashed var(--blue)"></span> Prévision IA</span>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="dashChart"></canvas></div>
+      </div>
+      <div class="cm-card">
+        <div class="cm-head">
+          <div class="cm-title">⚔️ Time Challenger</div>
+          <span class="chip chip-green" style="font-size:10px">Live</span>
+        </div>
+        <div class="cm-target-box">
+          <div class="cm-target-num" id="cm-target-num">--</div>
+          <div class="cm-target-lbl">heures — Objectif IA du jour</div>
+        </div>
+        <div>
+          <div class="cm-row"><span>Focus actuel</span><span class="cm-val" id="cm-actual">0.0 h</span></div>
+          <div class="cm-bar"><div class="cm-bar-fill" id="cm-bar" style="width:0%"></div></div>
+        </div>
+        <button class="cm-enter" onclick="goStudyZone()">⚔️ Entrer dans la Zone de Travail</button>
+      </div>
+    </div>
+    <div class="res-header">
+      <div>
+        <div class="tag-label" style="margin-bottom:5px">🎓 Ressources</div>
+        <div class="res-title">Choisissez votre type de ressource</div>
+      </div>
+    </div>
+    <div class="res-grid">
+      <div class="res-card rc-drives" onclick="goPacks('drives')">
+        <div class="rc-badge">Nouveau</div>
+        <div class="rc-icon">📂</div>
+        <div class="rc-title">Drives de Cours</div>
+        <div class="rc-desc">Cours complets par matière et semestre. Téléchargement direct.</div>
+        <div class="rc-meta">📄 8 matières • Mis à jour chaque semaine</div>
+        <button class="rc-btn">Accéder aux Drives →</button>
+      </div>
+      <div class="res-card rc-videos" onclick="goPacks('videos')">
+        <div class="rc-badge">Populaire</div>
+        <div class="rc-icon">🎬</div>
+        <div class="rc-title">Vidéos & Exercices</div>
+        <div class="rc-desc">Vidéos pédagogiques en Darija & Français, exercices résolus.</div>
+        <div class="rc-meta">▶ 120+ vidéos • Exercices corrigés</div>
+        <button class="rc-btn">Voir les Vidéos →</button>
+      </div>
+      <div class="res-card rc-exams" onclick="goPacks('exams')">
+        <div class="rc-badge">Essentiel</div>
+        <div class="rc-icon">📝</div>
+        <div class="rc-title">Examens & Contrôles</div>
+        <div class="rc-desc">5 années d'examens avec corrections vidéo détaillées.</div>
+        <div class="rc-meta">📋 5 années • Rattrapages inclus</div>
+        <button class="rc-btn">Voir les Examens →</button>
+      </div>
+      <div class="res-card rc-concours" onclick="showPage('concours')">
+        <div class="rc-badge">🔥 Nouveau</div>
+        <div class="rc-icon">🏆</div>
+        <div class="rc-title">Prépa Concours</div>
+        <div class="rc-desc">Médecine, ENSA, ENA, ENCG, IAV — annales avec corrections et stratégie.</div>
+        <div class="rc-meta">🏆 5 filières • 200+ annales</div>
+        <button class="rc-btn">Préparer les Concours →</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

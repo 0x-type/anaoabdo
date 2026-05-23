@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepaLab — Ressources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page active" id="page-packs">
+  <nav class="packs-nav">
+    <button class="btn btn-ghost" onclick="showPage('dashboard')" style="padding:7px 13px;font-size:12.5px">← Dashboard</button>
+    <div class="breadcrumb">
+      <span onclick="showPage('dashboard')" style="cursor:pointer;color:var(--t3)">Dashboard</span>
+      <span class="sep">/</span>
+      <span id="bc-section">Ressources</span>
+    </div>
+    <div style="display:flex;gap:6px;margin-left:auto">
+      <button class="filt-btn" onclick="goPacks('drives')" id="pk-drives">📂 Drives</button>
+      <button class="filt-btn" onclick="goPacks('videos')" id="pk-videos">🎬 Vidéos</button>
+      <button class="filt-btn" onclick="goPacks('exams')" id="pk-exams">📝 Examens</button>
+      <button class="filt-btn" onclick="showPage('concours')" id="pk-concours">🏆 Concours</button>
+    </div>
+  </nav>
+  <div class="packs-body">
+    <div class="packs-hero" id="packs-hero">
+      <div class="ph-inner">
+        <div>
+          <div id="ph-pill" class="chip chip-blue" style="margin-bottom:14px;font-size:11px">📂 Drives de Cours</div>
+          <h1 id="ph-title">Drives de Cours</h1>
+          <p id="ph-desc">Accède à tous les cours organisés par matière et par semestre.</p>
+        </div>
+        <div class="ph-stats">
+          <div class="ph-stat"><div class="ph-stat-num" id="ph-s1">8</div><div class="ph-stat-lbl" id="ph-l1">Matières</div></div>
+          <div class="ph-stat"><div class="ph-stat-num" id="ph-s2">100%</div><div class="ph-stat-lbl" id="ph-l2">Gratuit</div></div>
+          <div class="ph-stat"><div class="ph-stat-num" id="ph-s3">340+</div><div class="ph-stat-lbl" id="ph-l3">Fichiers</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="packs-ctrl">
+      <div class="search-box">
+        <span style="color:var(--t3);font-size:13px">🔍</span>
+        <input type="text" id="pack-search" placeholder="Rechercher un module..." oninput="renderModules()">
+      </div>
+      <div class="filter-row" id="pack-filters"></div>
+    </div>
+    <div class="module-grid" id="module-grid"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
