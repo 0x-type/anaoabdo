@@ -3,27 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrepaLab — Connexion</title>
+<title>PrepaLab — Plateforme Éducative N°1 au Maroc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="styles.css">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']],
+    tags: 'ams'
+  },
+  options: {
+    skipHtmlTags: ['script','noscript','style','textarea','pre']
+  },
+  startup: {
+    typeset: false
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 </head>
 <body>
-<div class="page active" id="page-login">
+<!-- LOGIN -->
+<div class="page" id="page-login">
   <div class="login-split">
     <div class="login-left">
-      <div class="ll-grid"></div>
-      <div class="ll-orb1"></div>
-      <div class="ll-orb2"></div>
-      <div class="ll-logo" style="position:relative;z-index:1">
-        <div class="ll-logo-icon">PL</div>
-        <span class="ll-logo-text">Prépara<span>Lab</span></span>
-      </div>
+      <div class="ll-grid"></div><div class="ll-orb1"></div><div class="ll-orb2"></div>
+      <div class="ll-logo"><div class="ll-logo-icon">PL</div><span class="ll-logo-text">Prépara<span>Lab</span></span></div>
       <div class="ll-body">
         <div class="ll-eyebrow">✦ Plateforme N°1 au Maroc</div>
         <div class="ll-headline">Tout ce qu'il faut pour réussir ta <em>Grande École</em></div>
-        <div class="ll-desc">Cours en Drive, vidéos pédagogiques, annales corrigées et Time Challenger IA — 100% gratuit.</div>
+        <div class="ll-desc">Cours en Drive, vidéos pédagogiques, annales corrigées et Concours Advisor IA — 100% gratuit.</div>
         <div class="ll-stats">
           <div class="ll-stat"><div class="ll-stat-num">2.4<em>K</em></div><div class="ll-stat-lbl">Étudiants</div></div>
           <div class="ll-stat"><div class="ll-stat-num">340<em>+</em></div><div class="ll-stat-lbl">Ressources</div></div>
@@ -33,7 +45,7 @@
           <div class="ll-feat"><div class="ll-feat-dot">📂</div> Drives organisés par matière & semestre</div>
           <div class="ll-feat"><div class="ll-feat-dot">🎬</div> Vidéos pédagogiques & exercices corrigés</div>
           <div class="ll-feat"><div class="ll-feat-dot">🏆</div> Annales concours avec corrections vidéo</div>
-          <div class="ll-feat"><div class="ll-feat-dot">⚔️</div> Time Challenger — Bats l'IA chaque jour !</div>
+          <div class="ll-feat"><div class="ll-feat-dot">🤖</div> Advisor IA — Gratuit pour tous les étudiants</div>
         </div>
       </div>
     </div>
@@ -83,7 +95,5 @@
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<script src="app.js"></script>
 </body>
 </html>

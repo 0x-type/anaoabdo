@@ -3,14 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrepaLab — Zone de Travail</title>
+<title>PrepaLab — Plateforme Éducative N°1 au Maroc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="styles.css">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']],
+    tags: 'ams'
+  },
+  options: {
+    skipHtmlTags: ['script','noscript','style','textarea','pre']
+  },
+  startup: {
+    typeset: false
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style></style>
 </head>
 <body>
-<div class="page active" id="page-study">
+<div class="page" id="page-study">
   <nav class="study-nav">
     <div class="study-nav-left">
       <button class="btn btn-ghost" onclick="showPage('packs')" style="padding:7px 13px;font-size:12.5px">← Retour</button>
@@ -18,78 +35,47 @@
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <span class="chip chip-neon" id="study-focus-chip">⏱ 0.0h focus</span>
-      <div class="nav-logo">
-        <div class="nav-logo-icon" style="width:28px;height:28px;font-size:11px">PL</div>
-        <span class="nav-logo-text" style="font-size:15px">Prépara<span>Lab</span></span>
-      </div>
+      <div class="nav-logo"><div class="nav-logo-icon" style="width:28px;height:28px;font-size:11px">PL</div><span class="nav-logo-text" style="font-size:15px">Prépara<span>Lab</span></span></div>
     </div>
   </nav>
   <div class="study-body">
     <div class="study-main">
-      <div class="s-panel" id="drive-panel">
-        <div class="s-panel-header">
-          <div class="s-panel-title">📂 Cours & Documents</div>
-          <span class="chip chip-blue" id="drive-count">0 fichier</span>
-        </div>
+      <div class="s-panel">
+        <div class="s-panel-header"><div class="s-panel-title">📂 Cours & Documents</div><span class="chip chip-blue" id="drive-count">0 fichier</span></div>
         <div class="drive-list" id="drive-list"></div>
       </div>
       <div class="s-panel">
         <div class="yt-studio-hd">
-          <div class="yt-title-area">
-            <div class="yt-red-box">▶</div>
-            <div>
-              <div class="yt-title-text">Studio Vidéo</div>
-              <div class="yt-title-sub">Vidéos pédagogiques YouTube</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="yt-badge-count" id="yt-count-study">0 vidéo</span>
-            <button class="yt-toggle-btn" id="yt-toggle-study" onclick="ytToggle('study')">+ Ajouter</button>
-          </div>
+          <div class="yt-title-area"><div class="yt-red-box">▶</div><div><div class="yt-title-text">Studio Vidéo</div><div class="yt-title-sub">Vidéos pédagogiques YouTube</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="yt-badge-count" id="yt-count-study">0 vidéo</span><button class="yt-toggle-btn" id="yt-toggle-study" onclick="ytToggle('study')">+ Ajouter</button></div>
         </div>
         <div class="yt-add-box" id="yt-box-study">
           <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:11px">🔧 Ajouter une vidéo YouTube</div>
-          <div class="yt-add-row"><input class="yt-field" id="yt-title-study" placeholder="Titre (ex: Analyse – Suites numériques)"></div>
-          <div class="yt-add-row">
-            <input class="yt-field" id="yt-url-study" placeholder="https://www.youtube.com/watch?v=...">
-            <button class="yt-add-do" onclick="ytAdd('study')">+ Ajouter</button>
-          </div>
+          <div class="yt-add-row"><input class="yt-field" id="yt-title-study" placeholder="Titre de la vidéo"></div>
+          <div class="yt-add-row"><input class="yt-field" id="yt-url-study" placeholder="https://www.youtube.com/watch?v=..."><button class="yt-add-do" onclick="ytAdd('study')">+ Ajouter</button></div>
           <div class="yt-hint">💡 La vidéo apparaît immédiatement dans la liste.</div>
         </div>
-        <div class="yt-empty" id="yt-empty-study">
-          <div class="yt-empty-icon">▶</div>
-          <div class="yt-empty-title">Aucune vidéo ajoutée</div>
-          <div style="font-size:.78rem;color:var(--t3);margin-top:4px">Clique sur "+ Ajouter" pour coller un lien YouTube.</div>
-        </div>
+        <div class="yt-empty" id="yt-empty-study"><div class="yt-empty-icon">▶</div><div class="yt-empty-title">Aucune vidéo ajoutée</div><div style="font-size:.78rem;color:var(--t3);margin-top:4px">Clique sur "+ Ajouter" pour coller un lien YouTube.</div></div>
         <div class="yt-grid" id="yt-grid-study"></div>
       </div>
       <div class="pratique-section">
         <div class="pratique-header">
-          <div class="pratique-title-area">
-            <div class="pratique-icon-box">🧠</div>
-            <div>
-              <div class="pratique-title">Zone de Pratique</div>
-              <div class="pratique-sub">Teste ta compréhension après avoir étudié le cours</div>
-            </div>
-          </div>
+          <div class="pratique-title-area"><div class="pratique-icon-box">🧠</div><div><div class="pratique-title">Zone de Pratique</div><div class="pratique-sub">Teste ta compréhension après avoir étudié le cours</div></div></div>
           <div class="pratique-tabs">
             <button class="pratique-tab qcm-tab active" id="tab-qcm" onclick="switchPratique('qcm')">🎯 QCM Interactif</button>
-            <button class="pratique-tab exo-tab" id="tab-exo" onclick="switchPratique('exo')">✏️ Exercices d'Application</button>
+            <button class="pratique-tab exo-tab" id="tab-exo" onclick="switchPratique('exo')">✏️ Exercices</button>
           </div>
         </div>
         <div id="pratique-qcm" class="pratique-body">
-          <div class="qcm-intro"><div class="qcm-intro-ico">🎯</div><div class="qcm-intro-text"><strong>QCM Interactif</strong> — Réponds aux questions à choix multiples pour valider ta compréhension. Chaque bonne réponse est expliquée en détail !</div></div>
-          <div class="qcm-score-bar"><div><div class="qcm-score-left">Score actuel</div><div class="qcm-score-val" id="qcm-score-val" style="color:var(--green)">0 / 0</div></div><div class="qcm-score-progress"><div class="qcm-sp-dots" id="qcm-dots"></div></div></div>
+          <div class="qcm-intro"><div class="qcm-intro-ico">🎯</div><div class="qcm-intro-text"><strong>QCM Interactif</strong> — Réponds aux questions pour valider ta compréhension.</div></div>
+          <div class="qcm-score-bar"><div><div class="qcm-score-left">Score actuel</div><div class="qcm-score-val" id="qcm-score-val" style="color:var(--green)">0 / 0</div></div><div style="display:flex;align-items:center;gap:10px"><div class="qcm-sp-dots" id="qcm-dots"></div></div></div>
           <div id="qcm-question-area"></div>
-          <div class="qcm-finish" id="qcm-finish">
-            <div class="qcm-finish-ico" id="qcm-finish-ico">🎉</div>
-            <div class="qcm-finish-score" id="qcm-finish-score" style="color:var(--green)">--/--</div>
-            <div class="qcm-finish-lbl" id="qcm-finish-lbl">QCM terminé !</div>
-            <button class="qcm-retry" onclick="initQCM()">🔄 Recommencer le QCM</button>
-          </div>
+          <div class="qcm-finish" id="qcm-finish"><div class="qcm-finish-ico" id="qcm-finish-ico">🎉</div><div class="qcm-finish-score" id="qcm-finish-score" style="color:var(--green)">--/--</div><div class="qcm-finish-lbl" id="qcm-finish-lbl">QCM terminé !</div><button class="qcm-retry" onclick="initQCM()">🔄 Recommencer</button></div>
         </div>
         <div id="pratique-exo" class="pratique-body" style="display:none">
-          <div class="exo-intro"><div class="exo-intro-ico">✏️</div><div class="exo-intro-text"><strong>Exercices d'Application</strong> — Mets en pratique ce que tu as appris. Essaie de résoudre chaque exercice avant de révéler la correction !</div></div>
+          <div style="background:linear-gradient(145deg,rgba(0,184,122,.07),rgba(0,196,170,.03));border:1px solid rgba(0,184,122,.18);border-radius:var(--r2);padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px">
+            <div style="font-size:28px;flex-shrink:0">✏️</div><div style="font-size:.82rem;color:var(--t2);line-height:1.5"><strong>Exercices d'Application</strong> — Résous avant de révéler la correction.</div>
+          </div>
           <div id="exo-list"></div>
         </div>
       </div>
@@ -100,10 +86,7 @@
         <div class="pomo-card">
           <div class="pomo-head"><div class="pomo-brand">FOCUS ARENA</div><div class="pomo-streak" id="mini-streak">Streak: 0j</div></div>
           <div class="pomo-ring">
-            <svg width="130" height="130">
-              <circle stroke="rgba(0,0,0,0.07)" stroke-width="7" fill="transparent" r="56" cx="65" cy="65"/>
-              <circle id="mini-ring" stroke="var(--neon)" stroke-width="7" fill="transparent" r="56" cx="65" cy="65" style="stroke-dasharray:351.86 351.86;stroke-dashoffset:0;transition:stroke-dashoffset .35s;transform-origin:50% 50%"/>
-            </svg>
+            <svg width="130" height="130"><circle stroke="rgba(0,0,0,0.07)" stroke-width="7" fill="transparent" r="56" cx="65" cy="65"/><circle id="mini-ring" stroke="var(--neon)" stroke-width="7" fill="transparent" r="56" cx="65" cy="65" style="stroke-dasharray:351.86 351.86;stroke-dashoffset:0;transition:stroke-dashoffset .35s;transform-origin:50% 50%"/></svg>
             <div class="pomo-digits" id="mini-time">25:00</div>
             <div class="pomo-mode" id="mini-mode">Prêt</div>
           </div>
@@ -114,24 +97,14 @@
           </div>
           <div class="pomo-vs">
             <div class="pomo-vs-row"><span>Focus accumulé</span><span class="pomo-vs-val" id="mini-acc">0.0h</span></div>
-            <div class="pomo-vs-row"><span>Objectif IA</span><span class="pomo-vs-val" id="mini-obj" style="color:var(--neon)">-- h</span></div>
+            <div class="pomo-vs-row"><span>Objectif</span><span class="pomo-vs-val" id="mini-obj" style="color:var(--neon)">-- h</span></div>
             <div class="pomo-vs-bar"><div class="pomo-vs-fill" id="mini-bar" style="width:0%"></div></div>
             <div class="pomo-verdict" id="mini-verdict">Lance le minuteur pour commencer.</div>
           </div>
         </div>
       </div>
-      <div class="sb-sec">
-        <div class="sb-title">📈 Progression du module</div>
-        <div class="prog-items" id="prog-items"></div>
-      </div>
-      <div class="sb-sec">
-        <div class="sb-title">💡 Astuce du jour</div>
-        <div class="tip-card" id="tip-card"></div>
-      </div>
+      <div class="sb-sec"><div class="sb-title">📈 Progression</div><div class="prog-items" id="prog-items"></div></div>
+      <div class="sb-sec"><div class="sb-title">💡 Astuce du jour</div><div class="tip-card" id="tip-card"></div></div>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<script src="app.js"></script>
-</body>
-</html>
