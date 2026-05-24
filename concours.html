@@ -3,50 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrepaLab — Prépa Concours</title>
+<title>PrepaLab — Plateforme Éducative N°1 au Maroc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="styles.css">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']],
+    tags: 'ams'
+  },
+  options: {
+    skipHtmlTags: ['script','noscript','style','textarea','pre']
+  },
+  startup: {
+    typeset: false
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style></style>
 </head>
 <body>
-<div class="page active" id="page-concours">
+<div class="page" id="page-concours">
   <nav class="concours-nav">
     <button class="btn btn-ghost" onclick="showPage('dashboard')" style="padding:7px 13px;font-size:12.5px">← Dashboard</button>
-    <div class="breadcrumb">
-      <span onclick="showPage('dashboard')" style="cursor:pointer;color:var(--t3)">Dashboard</span>
-      <span class="sep">/</span>
-      <span id="conc-bc">Prépa Concours</span>
-    </div>
+    <div class="breadcrumb"><span onclick="showPage('dashboard')" style="cursor:pointer;color:var(--t3)">Dashboard</span><span class="sep">/</span><span id="conc-bc">Prépa Concours</span></div>
     <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
       <span class="chip chip-gold">🏆 5 Filières</span>
-      <div class="nav-logo">
-        <div class="nav-logo-icon" style="width:28px;height:28px;font-size:11px">PL</div>
-        <span class="nav-logo-text" style="font-size:15px">Prépara<span>Lab</span></span>
-      </div>
+      <div class="nav-logo"><div class="nav-logo-icon" style="width:28px;height:28px;font-size:11px">PL</div><span class="nav-logo-text" style="font-size:15px">Prépara<span>Lab</span></span></div>
     </div>
   </nav>
-
   <div style="max-width:1300px;margin:0 auto;">
-    <!-- MAIN VIEW -->
     <div class="conc-main-view" id="conc-main-view">
       <div class="concours-wrap">
         <div class="conc-eyebrow">
           <div class="badge-concours">🏆 Prépa Concours Post-Bac</div>
-          <button class="btn-back" onclick="showPage('dashboard')">← Retour au Dashboard</button>
+          <button class="btn-back" onclick="showPage('dashboard')">← Retour</button>
         </div>
-
         <div class="conc-hero">
           <h1>Décroche ta place dans la <span>Grande École</span> de tes rêves</h1>
-          <p>Annales des vraies épreuves, corrections vidéo détaillées et planification pour réussir les concours les plus sélectifs du Maroc.</p>
+          <p>Annales des vraies épreuves, corrections vidéo et Advisor IA — gratuit pour tous.</p>
           <div class="conc-stats">
             <div class="conc-stat"><div class="conc-stat-num">5+</div><div class="conc-stat-lbl">Années d'annales</div></div>
             <div class="conc-stat"><div class="conc-stat-num">5</div><div class="conc-stat-lbl">Filières couvertes</div></div>
             <div class="conc-stat"><div class="conc-stat-num">200+</div><div class="conc-stat-lbl">Annales totales</div></div>
-            <div class="conc-stat"><div class="conc-stat-num">100%</div><div class="conc-stat-lbl">Corrections incluses</div></div>
+            <div class="conc-stat"><div class="conc-stat-num">IA</div><div class="conc-stat-lbl">Advisor gratuit</div></div>
           </div>
         </div>
-
         <div class="conc-tabs" id="conc-tabs">
           <button class="conc-tab t-med active" onclick="filterConcours('all',this)">🎓 Toutes les filières</button>
           <button class="conc-tab t-med" onclick="filterConcours('med',this)">🩺 Médecine & Pharmacie</button>
@@ -55,37 +61,15 @@
           <button class="conc-tab t-encg" onclick="filterConcours('encg',this)">📊 ENCG & ISCAE</button>
           <button class="conc-tab t-agro" onclick="filterConcours('agro',this)">🌿 IAV & ENAM & ENCSK</button>
         </div>
-
         <div class="sectors-grid" id="sectors-grid">
-
-          <!-- MÉDECINE -->
           <div class="sector-card s-med" data-cat="med">
-            <div class="card-header">
-              <div class="icon-badge">🩺</div>
-              <h2>Médecine & Pharmacie</h2>
-              <p>Concours d'accès aux Facultés de Médecine</p>
-            </div>
+            <div class="card-header"><div class="icon-badge">🩺</div><h2>Médecine & Pharmacie</h2><p>Concours d'accès aux Facultés de Médecine</p></div>
             <div class="card-body">
-              <div class="tags-row">
-                <span class="ctag active">Fac Méd Casa</span>
-                <span class="ctag">Rabat</span>
-                <span class="ctag">Fès</span>
-                <span class="ctag">Marrakech</span>
-                <span class="ctag">Oujda</span>
-              </div>
+              <div class="tags-row"><span class="ctag active">Fac Méd Casa</span><span class="ctag">Rabat</span><span class="ctag">Fès</span><span class="ctag">Marrakech</span></div>
               <div class="subpacks-row">
-                <button class="subpack-btn" onclick="openConcoursModule('med','annales')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">60+ annales avec corrections vidéo</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('med','videos')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎬</span><div><div class="subpack-btn-name">Vidéos de Correction</div><div class="subpack-btn-meta">SVT, Physique-Chimie, Maths</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('med','qcm')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">QCM interactifs par matière</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
+                <button class="subpack-btn" onclick="openConcoursModule('med','annales')"><div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">60+ annales avec corrections vidéo</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openConcoursModule('med','qcm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">QCM interactifs par matière</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openAdvisorWithContext('med')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🤖</span><div><div class="subpack-btn-name">Advisor IA Médecine</div><div class="subpack-btn-meta">Gratuit • Explication + correction</div></div></div><span class="subpack-btn-arrow">→</span></button>
               </div>
               <div class="info-panel">
                 <div class="info-item"><span class="info-ico">📅</span>Session : Juillet / Septembre (post-bac)</div>
@@ -95,107 +79,48 @@
               <button class="btn-action" onclick="openConcoursModule('med','annales')">Préparer Médecine →</button>
             </div>
           </div>
-
-          <!-- INGÉNIEUR -->
           <div class="sector-card s-ing" data-cat="ing">
-            <div class="card-header">
-              <div class="icon-badge">⚙️</div>
-              <h2>ENSA – ENSAM – UM6P</h2>
-              <p>Concours Ingénieur — Prépa intégrée</p>
-            </div>
+            <div class="card-header"><div class="icon-badge">⚙️</div><h2>ENSA – ENSAM – UM6P</h2><p>Concours Ingénieur — Prépa intégrée</p></div>
             <div class="card-body">
-              <div class="tags-row">
-                <span class="ctag active">ENSA</span>
-                <span class="ctag">ENSAM Casa</span>
-                <span class="ctag">UM6P</span>
-                <span class="ctag">INSA Rabat</span>
-              </div>
+              <div class="tags-row"><span class="ctag active">ENSA</span><span class="ctag">ENSAM Casa</span><span class="ctag">UM6P</span><span class="ctag">INSA Rabat</span></div>
               <div class="subpacks-row">
-                <button class="subpack-btn" onclick="openConcoursModule('ing','annales')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">50+ annales avec corrections détaillées</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('ing','videos')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎬</span><div><div class="subpack-btn-name">Vidéos de Correction</div><div class="subpack-btn-meta">Maths, Physique, Informatique</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('ing','qcm')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">QCM interactifs par matière</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
+                <button class="subpack-btn" onclick="openConcoursModule('ing','annales')"><div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">50+ annales avec corrections</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openConcoursModule('ing','qcm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">Maths, Physique type concours</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openAdvisorWithContext('ing')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🤖</span><div><div class="subpack-btn-name">Advisor IA Ingénieur</div><div class="subpack-btn-meta">Gratuit • Limites, intégrales…</div></div></div><span class="subpack-btn-arrow">→</span></button>
               </div>
               <div class="info-panel">
                 <div class="info-item"><span class="info-ico">📅</span>Session : Juillet (résultats août)</div>
                 <div class="info-item"><span class="info-ico">📚</span>Maths - Physique-Chimie - Français</div>
-                <div class="info-item"><span class="info-ico">📋</span>50+ annales avec corrections détaillées</div>
+                <div class="info-item"><span class="info-ico">📋</span>50+ annales avec corrections</div>
               </div>
               <button class="btn-action" onclick="openConcoursModule('ing','annales')">Préparer Ingénieur →</button>
             </div>
           </div>
-
-          <!-- ENA -->
           <div class="sector-card s-adm" data-cat="adm">
-            <div class="card-header">
-              <div class="icon-badge">🏛️</div>
-              <h2>ENA & Administration</h2>
-              <p>École Nationale d'Architecture & Admin.</p>
-            </div>
+            <div class="card-header"><div class="icon-badge">🏛️</div><h2>ENA & Administration</h2><p>École Nationale d'Administration</p></div>
             <div class="card-body">
-              <div class="tags-row">
-                <span class="ctag active">ENA</span>
-                <span class="ctag">ENSA Archi</span>
-              </div>
+              <div class="tags-row"><span class="ctag active">ENA</span><span class="ctag">ENSA Archi</span></div>
               <div class="subpacks-row">
-                <button class="subpack-btn" onclick="openConcoursModule('adm','annales')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">40+ annales avec corrections</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('adm','videos')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎬</span><div><div class="subpack-btn-name">Vidéos de Correction</div><div class="subpack-btn-meta">Culture G., Français, Anglais</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('adm','qcm')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">Culture générale & Logique</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
+                <button class="subpack-btn" onclick="openConcoursModule('adm','annales')"><div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">40+ annales avec corrections</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openConcoursModule('adm','qcm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM Culture Générale</div><div class="subpack-btn-meta">Institutions, Maroc, monde</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openAdvisorWithContext('adm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🤖</span><div><div class="subpack-btn-name">Advisor IA ENA</div><div class="subpack-btn-meta">Gratuit • Culture G., Dissertation</div></div></div><span class="subpack-btn-arrow">→</span></button>
               </div>
               <div class="info-panel">
-                <div class="info-item"><span class="info-ico">📅</span>Sessions : Juin – Octobre selon l'école</div>
+                <div class="info-item"><span class="info-ico">📅</span>Sessions : Juin – Octobre</div>
                 <div class="info-item"><span class="info-ico">📚</span>Culture G. - Maths - Français - Anglais</div>
                 <div class="info-item"><span class="info-ico">📋</span>40+ annales avec corrections</div>
               </div>
               <button class="btn-action" onclick="openConcoursModule('adm','annales')">Préparer ENA →</button>
             </div>
           </div>
-
-          <!-- ENCG -->
           <div class="sector-card s-encg" data-cat="encg">
-            <div class="card-header">
-              <div class="icon-badge">📊</div>
-              <h2>ENCG & ISCAE</h2>
-              <p>Écoles de Commerce & Gestion</p>
-            </div>
+            <div class="card-header"><div class="icon-badge">📊</div><h2>ENCG & ISCAE</h2><p>Écoles de Commerce & Gestion</p></div>
             <div class="card-body">
-              <div class="tags-row">
-                <span class="ctag active">ENCG Casa</span>
-                <span class="ctag">ENCG Rabat</span>
-                <span class="ctag">ISCAE</span>
-                <span class="ctag">ENCG Fès</span>
-                <span class="ctag">ENCG Agadir</span>
-              </div>
+              <div class="tags-row"><span class="ctag active">ENCG Casa</span><span class="ctag">ENCG Rabat</span><span class="ctag">ISCAE</span><span class="ctag">ENCG Fès</span></div>
               <div class="subpacks-row">
-                <button class="subpack-btn" onclick="openConcoursModule('encg','annales')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">45+ annales ENCG/ISCAE corrigées</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('encg','videos')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎬</span><div><div class="subpack-btn-name">Vidéos de Correction</div><div class="subpack-btn-meta">Maths, Économie, Français, Anglais</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('encg','qcm')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">Logique, Maths, Culture éco</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
+                <button class="subpack-btn" onclick="openConcoursModule('encg','annales')"><div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">45+ annales ENCG/ISCAE corrigées</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openConcoursModule('encg','qcm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM Logique & Maths</div><div class="subpack-btn-meta">Probabilités, économie, logique</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openAdvisorWithContext('encg')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🤖</span><div><div class="subpack-btn-name">Advisor IA ENCG</div><div class="subpack-btn-meta">Gratuit • Proba, économie…</div></div></div><span class="subpack-btn-arrow">→</span></button>
               </div>
               <div class="info-panel">
                 <div class="info-item"><span class="info-ico">📅</span>Session : Mai – Juin (post-bac)</div>
@@ -205,49 +130,26 @@
               <button class="btn-action" onclick="openConcoursModule('encg','annales')">Préparer ENCG / ISCAE →</button>
             </div>
           </div>
-
-          <!-- IAV -->
           <div class="sector-card s-agro" data-cat="agro">
-            <div class="card-header">
-              <div class="icon-badge">🌿</div>
-              <h2>IAV – ENAM – ENCSK</h2>
-              <p>Agronomie, Vétérinaire & Sciences de la Kénitra</p>
-            </div>
+            <div class="card-header"><div class="icon-badge">🌿</div><h2>IAV – ENAM – ENCSK</h2><p>Agronomie, Vétérinaire & Sciences</p></div>
             <div class="card-body">
-              <div class="tags-row">
-                <span class="ctag active">IAV Hassan II</span>
-                <span class="ctag">ENAM</span>
-                <span class="ctag">ENCSK</span>
-                <span class="ctag">ENA Vét.</span>
-              </div>
+              <div class="tags-row"><span class="ctag active">IAV Hassan II</span><span class="ctag">ENAM</span><span class="ctag">ENCSK</span></div>
               <div class="subpacks-row">
-                <button class="subpack-btn" onclick="openConcoursModule('agro','annales')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">40+ annales IAV/ENAM/ENCSK</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('agro','videos')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎬</span><div><div class="subpack-btn-name">Vidéos de Correction</div><div class="subpack-btn-meta">SVT, Maths, Physique-Chimie</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
-                <button class="subpack-btn" onclick="openConcoursModule('agro','qcm')">
-                  <div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM d'Entraînement</div><div class="subpack-btn-meta">Biologie, Agronomie, Chimie</div></div></div>
-                  <span class="subpack-btn-arrow">→</span>
-                </button>
+                <button class="subpack-btn" onclick="openConcoursModule('agro','annales')"><div class="subpack-btn-left"><span class="subpack-btn-ico">📄</span><div><div class="subpack-btn-name">Annales & Examens</div><div class="subpack-btn-meta">40+ annales IAV/ENAM/ENCSK</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openConcoursModule('agro','qcm')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🎯</span><div><div class="subpack-btn-name">QCM Biologie & Agronomie</div><div class="subpack-btn-meta">SVT, biochimie, sols</div></div></div><span class="subpack-btn-arrow">→</span></button>
+                <button class="subpack-btn" onclick="openAdvisorWithContext('agro')"><div class="subpack-btn-left"><span class="subpack-btn-ico">🤖</span><div><div class="subpack-btn-name">Advisor IA IAV/ENAM</div><div class="subpack-btn-meta">Gratuit • Photosynthèse, génétique…</div></div></div><span class="subpack-btn-arrow">→</span></button>
               </div>
               <div class="info-panel">
                 <div class="info-item"><span class="info-ico">📅</span>Session : Juin – Juillet (post-bac)</div>
                 <div class="info-item"><span class="info-ico">📚</span>SVT - Maths - Physique-Chimie - Français</div>
                 <div class="info-item"><span class="info-ico">📋</span>40+ annales avec corrections complètes</div>
               </div>
-              <button class="btn-action" onclick="openConcoursModule('agro','annales')">Préparer IAV / ENAM / ENCSK →</button>
+              <button class="btn-action" onclick="openConcoursModule('agro','annales')">Préparer IAV / ENAM →</button>
             </div>
           </div>
-
-        </div><!-- end sectors-grid -->
-      </div><!-- end concours-wrap -->
-    </div><!-- end conc-main-view -->
-
-    <!-- SUB-PAGE -->
+        </div>
+      </div>
+    </div>
     <div class="conc-subpage" id="conc-sub-page">
       <div class="concours-wrap">
         <div class="conc-eyebrow">
@@ -268,13 +170,7 @@
         </div>
         <div style="margin-bottom:28px">
           <div class="yt-studio-hd">
-            <div class="yt-title-area">
-              <div class="yt-red-box">▶</div>
-              <div>
-                <div class="yt-title-text">Studio Vidéo — Concours</div>
-                <div class="yt-title-sub">Vidéos de correction YouTube</div>
-              </div>
-            </div>
+            <div class="yt-title-area"><div class="yt-red-box">▶</div><div><div class="yt-title-text">Studio Vidéo — Concours</div><div class="yt-title-sub">Ajoute tes vidéos YouTube de correction</div></div></div>
             <div style="display:flex;align-items:center;gap:8px">
               <span class="yt-badge-count" id="yt-count-concours">0 vidéo</span>
               <button class="yt-toggle-btn" id="yt-toggle-concours" onclick="ytToggle('concours')">+ Ajouter</button>
@@ -282,53 +178,23 @@
           </div>
           <div class="yt-add-box" id="yt-box-concours">
             <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:11px">🔧 Ajouter une vidéo YouTube</div>
-            <div class="yt-add-row">
-              <input class="yt-field" id="yt-title-concours" placeholder="Titre (ex: Correction SVT Médecine 2024)">
-            </div>
-            <div class="yt-add-row">
-              <input class="yt-field" id="yt-url-concours" placeholder="https://www.youtube.com/watch?v=...">
-              <button class="yt-add-do" onclick="ytAdd('concours')">+ Ajouter</button>
-            </div>
-            <div class="yt-hint">💡 La vidéo apparaît immédiatement dans la liste.</div>
+            <div class="yt-add-row"><input class="yt-field" id="yt-title-concours" placeholder="Titre (ex: Correction SVT Médecine 2024)"></div>
+            <div class="yt-add-row"><input class="yt-field" id="yt-url-concours" placeholder="https://www.youtube.com/watch?v=..."><button class="yt-add-do" onclick="ytAdd('concours')">+ Ajouter</button></div>
+            <div class="yt-hint">💡 Colle le lien YouTube — la vidéo apparaît immédiatement.</div>
           </div>
-          <div class="yt-empty" id="yt-empty-concours">
-            <div class="yt-empty-icon">▶</div>
-            <div class="yt-empty-title">Aucune vidéo ajoutée</div>
-            <div style="font-size:.78rem;color:var(--t3);margin-top:4px">Clique sur "+ Ajouter" pour coller un lien YouTube.</div>
-          </div>
+          <div class="yt-empty" id="yt-empty-concours"><div class="yt-empty-icon">▶</div><div class="yt-empty-title">Aucune vidéo ajoutée</div><div style="font-size:.78rem;color:var(--t3);margin-top:4px">Clique sur "+ Ajouter" pour coller un lien YouTube.</div></div>
           <div class="yt-grid" id="yt-grid-concours"></div>
         </div>
         <div class="pratique-section" id="conc-qcm-section" style="display:none">
           <div class="pratique-header">
-            <div class="pratique-title-area">
-              <div class="pratique-icon-box">🎯</div>
-              <div>
-                <div class="pratique-title">QCM Concours</div>
-                <div class="pratique-sub" id="conc-qcm-sub">Questions type concours</div>
-              </div>
-            </div>
+            <div class="pratique-title-area"><div class="pratique-icon-box">🎯</div><div><div class="pratique-title">QCM Concours</div><div class="pratique-sub" id="conc-qcm-sub">Questions type concours</div></div></div>
           </div>
-          <div class="qcm-intro">
-            <div class="qcm-intro-ico">🏆</div>
-            <div class="qcm-intro-text"><strong>QCM type concours</strong> — Questions similaires aux épreuves réelles. Entraîne-toi dans les conditions du concours !</div>
-          </div>
-          <div class="qcm-score-bar">
-            <div><div class="qcm-score-left">Score concours</div><div class="qcm-score-val" id="conc-qcm-score" style="color:var(--green)">0 / 0</div></div>
-            <div class="qcm-score-progress"><div class="qcm-sp-dots" id="conc-qcm-dots"></div></div>
-          </div>
+          <div class="qcm-intro"><div class="qcm-intro-ico">🏆</div><div class="qcm-intro-text"><strong>QCM type concours</strong> — Questions similaires aux épreuves réelles.</div></div>
+          <div class="qcm-score-bar"><div><div class="qcm-score-left">Score concours</div><div class="qcm-score-val" id="conc-qcm-score" style="color:var(--green)">0 / 0</div></div><div style="display:flex;align-items:center;gap:10px"><div class="qcm-sp-dots" id="conc-qcm-dots"></div></div></div>
           <div id="conc-qcm-area"></div>
-          <div class="qcm-finish" id="conc-qcm-finish">
-            <div class="qcm-finish-ico" id="conc-qcm-finish-ico">🎉</div>
-            <div class="qcm-finish-score" id="conc-qcm-finish-score" style="color:var(--green)">--/--</div>
-            <div class="qcm-finish-lbl" id="conc-qcm-finish-lbl">QCM terminé !</div>
-            <button class="qcm-retry" onclick="initConcoursQCM()">🔄 Recommencer</button>
-          </div>
+          <div class="qcm-finish" id="conc-qcm-finish"><div class="qcm-finish-ico" id="conc-qcm-finish-ico">🎉</div><div class="qcm-finish-score" id="conc-qcm-finish-score" style="color:var(--green)">--/--</div><div class="qcm-finish-lbl" id="conc-qcm-finish-lbl">QCM terminé !</div><button class="qcm-retry" onclick="initConcoursQCM()">🔄 Recommencer</button></div>
         </div>
       </div>
-    </div><!-- end conc-sub-page -->
+    </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<script src="app.js"></script>
-</body>
-</html>
